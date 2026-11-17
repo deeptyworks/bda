@@ -48,16 +48,29 @@ cat("The third element in the second row is", x["Lang2", 3])
 
 **6. Excel to CSV and data viewer functions**
 library(readxl)
-write.csv(read_excel("dataset.xlsx"), "dataset.csv", row.names = FALSE)
+library(writexl)
+d <- data.frame(
+  AGE = c(25, 35, 42, 28, 51),
+  NAME = c("John", "Mary", "John Smith", "David", "Anna"),
+  order = 1:5
+)
+write_xlsx(d, "dataset.xlsx")
+write.csv(
+  read_excel("dataset.xlsx"),
+  "dataset.csv",
+  row.names = FALSE
+)
 d <- read.csv("dataset.csv")
-dim(d)                                        # dimensions
-head(d, 5)                                    # first 5 rows
-tail(d, 5)                                    # last 5 rows
-head(d[order(d$AGE), ], 5)                    # sorted by age
-head(d[order(-d$AGE), ], 5)                   # sorted descending
-subset(d, AGE > 30)                           # filtering
-d[grep("John", d$NAME, ignore.case = TRUE), ] # searching
-rm(d)                                         # remove object
+
+print(dim(d))                        # Dimensions
+print(head(d, 5))                     # First 5 rows
+print(tail(d, 5))                     # Last 5 rows
+d[order(d$AGE), ][1:5, ]       # Sort by age, ascending
+d[order(-d$AGE), ][1:5, ]      # Sort by age, descending
+subset(d, AGE > 30)            # Filter rows where age is over 30
+d[grep("John", d$NAME, ignore.case = TRUE), ]  # Search names
+rm(d)                          # Remove object
+
 
 **7. CSV of 10 students - mean and median**
 d <- data.frame(
